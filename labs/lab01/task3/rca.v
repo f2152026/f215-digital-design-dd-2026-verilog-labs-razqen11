@@ -10,6 +10,23 @@
 // TODO: instantiate four FA_Gate instances, same chaining pattern as
 // Task 2 (FA0..FA3, carry chain c1,c2,c3).
 
+module FA_Gate(
+  input  a,
+  input  b,
+  input  cin,
+  output sum,
+  output cout
+);
+  wire ps, pc1, pc2;
+
+  xor #(2) (ps,  a,   b);
+  and #(2) (pc1, a,   b);
+  xor #(2) (sum, cin, ps);
+  and #(2) (pc2, cin, ps);
+  or #(2) (cout, pc1, pc2);
+
+endmodule
+
 module rca(
   input  [3:0] a,
   input  [3:0] b,
@@ -24,22 +41,5 @@ module rca(
   FA_Gate FA2(.a(a[2]), .b(b[2]), .cin(c2), .sum(sum[2]), .cout(c3));
   FA_Gate FA3(.a(a[3]), .b(b[3]), .cin(c3), .sum(sum[3]), .cout(cout));
   // TODO: your four FA_Gate instances go here.
-
-endmodule
-
-module FA_Gate(
-  input  a,
-  input  b,
-  input  cin,
-  output sum,
-  output cout
-);
-  wire ps, pc1, pc2;
-
-  xor #(2,3) (ps,  a,   b);
-  and #(2,3) (pc1, a,   b);
-  xor #(2,3) (sum, cin, ps);
-  and #(2,3) (pc2, cin, ps);
-  or #(2,3) (cout, pc1, pc2);
 
 endmodule
